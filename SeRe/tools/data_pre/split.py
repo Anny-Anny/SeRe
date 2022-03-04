@@ -9,8 +9,8 @@ import random
 from PIL import Image, ImageFont, ImageDraw
 import ade20k_labels
 
-DATAROOT = '/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/potsdam'
-
+# DATAROOT = '/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/potsdam'
+DATAROOT = '/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/xiangtan'
 
 def split_sigle_img(img_name, label_name, start_index):
     img1 = cv2.imread(img_name)  # 读取RGB原图像
@@ -40,26 +40,46 @@ def split_potsdam_dataset(dataset_img_path, dataset_label_path):
         split_sigle_img(img_name, label_name, start_index)
         print("第" + str(i) + "张裁剪完成！")
 
-
 def gen_txt():
-    # 40% 8040 40% 8040 20% 4022 一共10202
-    name_list = os.listdir('/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/potsdam/images')
-    random.shuffle(name_list)
+    '''
+    @TODO:添加按比例划分的功能
+    '''
+    path = ''
+    # path = '/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/xiangtan/train.txt'
+    # path = '/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/potsdam/images'
+
     names = []
-    for ch in name_list:
-        names.append(int((ch.split('.')[0])))
-    # names.sort()
-    with open(DATAROOT + '/train.txt', 'w') as f:
-        for name in names[:16080]:
-            f.write(str(name) + '\n')
-    with open(DATAROOT + '/val.txt', 'w') as f:
-        for name in names[16080:]:
-            f.write(str(name) + '\n')
+    if path.endswith('.txt'):
+        with open(path, 'r') as f:
+            name_list = f.readlines()
+            for line in name_list:
+                line = line.strip()
+                names.append(line)
+    # 40% 8040 40% 8040 20% 4022 一共10202
+    if not path.endswith('.txt'):
+        name_list = os.listdir(path)
+        for ch in name_list:
+            names.append(int((ch.split('.')[0])))
+    # 随机打乱顺序
+    random.shuffle(names)
+    # with open(DATAROOT + '/train.txt', 'w') as f:
+    #     for name in names[:16080]:
+    #         f.write(str(name) + '\n')
+    # with open(DATAROOT + '/val.txt', 'w') as f:
+    #     for name in names[16080:]:
+    #         f.write(str(name) + '\n')
+    # with open(DATAROOT + '/ori.txt', 'w') as f:
+    #     for name in names[:8040]:
+    #         f.write(str(name) + '\n')
+    # with open(DATAROOT + '/new.txt', 'w') as f:
+    #     for name in names[8040:16080]:
+    #         f.write(str(name) + '\n')
+
     with open(DATAROOT + '/ori.txt', 'w') as f:
-        for name in names[:8040]:
+        for name in names[:7946]:
             f.write(str(name) + '\n')
     with open(DATAROOT + '/new.txt', 'w') as f:
-        for name in names[8040:16080]:
+        for name in names[7946:]:
             f.write(str(name) + '\n')
 
 
