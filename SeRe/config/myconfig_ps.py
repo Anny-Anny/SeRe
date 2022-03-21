@@ -102,8 +102,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=2,  # 单个 GPU 的 Batch size 2->4 不行，4带不动，又改回2
-    workers_per_gpu=2, # 单个 GPU 分配的数据加载线程数2->4
+    samples_per_gpu=8,  # 单个 GPU 的 Batch size 2->4 不行，4带不动，又改回2
+    workers_per_gpu=8, # 单个 GPU 分配的数据加载线程数2->4
     train=dict(  # 训练数据集配置
         type='CityscapesDataset',  # 数据集的类别, 细节参考自 mmseg/datasets/。
         data_root='/home/xjw/Downloads/code/mmsegmentation-0.21.0/data/potsdam',  # 数据集的根目录。
